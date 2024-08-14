@@ -1,5 +1,8 @@
 import { useState } from "react";
 import machine from "../../../data/recycling-machine.json";
+import Bottle from "../Bottle/Bottle";
+import Can from "../Can/Can";
+import Screen from "./Screen/Screen";
 
 function RecyclingMachine() {
   const [isActive, setIsActive] = useState<boolean | null>(false);
@@ -30,6 +33,15 @@ function RecyclingMachine() {
         src={machine.image}
         alt="Recycling Machine"
       />
+      <Screen
+        isActive={isActive}
+        activate={handleActivation}
+        countedCans={cans}
+        countedBottles={bottles}
+        value={value}
+      />
+      <Can handleItemClick={handleItemClick} />
+      <Bottle handleItemClick={handleItemClick} />
     </div>
   );
 }
