@@ -2,6 +2,7 @@ import { useState } from "react";
 import machine from "../../../data/recycling-machine.json";
 import Bottle from "../Bottle/Bottle";
 import Can from "../Can/Can";
+import "./RecyclingMachine.css";
 import Screen from "./Screen/Screen";
 
 function RecyclingMachine() {
@@ -9,18 +10,21 @@ function RecyclingMachine() {
   const [cans, setCans] = useState<number>(0);
   const [bottles, setBottles] = useState<number>(0);
   const [value, setValue] = useState<number>(0);
+  const [clicked, setClicked] = useState<number[]>([]);
 
   const handleActivation = () => {
     setIsActive(true);
   };
 
-  const handleItemClick = (type: string, value: number) => {
+  const handleItemClick = (type: string, value: number, id: number) => {
     if (isActive === true) {
       if (type === "can") {
         setCans((prevCans) => prevCans + 1);
+        setClicked((prevClickedCans) => [...prevClickedCans, id]);
       }
       if (type === "bottle") {
         setBottles((prevBottles) => prevBottles + 1);
+        setClicked((prevClickedBottles) => [...prevClickedBottles, id]);
       }
       setValue((prevValue) => prevValue + value);
     }
@@ -40,8 +44,8 @@ function RecyclingMachine() {
         countedBottles={bottles}
         value={value}
       />
-      <Can handleItemClick={handleItemClick} />
-      <Bottle handleItemClick={handleItemClick} />
+      <Can hideClicked={clicked} handleItemClick={handleItemClick} />
+      <Bottle hideClicked={clicked} handleItemClick={handleItemClick} />
     </div>
   );
 }
