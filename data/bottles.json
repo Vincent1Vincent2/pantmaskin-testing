@@ -1,0 +1,22 @@
+{
+  "bottles": [
+    {
+      "id": 1,
+      "value": 1,
+      "type": "bottle",
+      "image": "src/assets/bottles/images/1.png"
+    },
+    {
+      "id": 2,
+      "value": 1,
+      "type": "bottle",
+      "image": "src/assets/bottles/images/2.png"
+    },
+    {
+      "id": 3,
+      "value": 1,
+      "type": "bottle",
+      "image": "src/assets/bottles/images/3.png"
+    }
+  ]
+}

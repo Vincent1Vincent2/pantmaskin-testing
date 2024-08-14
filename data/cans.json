@@ -1,0 +1,28 @@
+{
+  "cans": [
+    {
+      "id": 1,
+      "value": 1,
+      "type": "can",
+      "image": "src/assets/cans/images/1.webp"
+    },
+    {
+      "id": 2,
+      "value": 1,
+      "type": "can",
+      "image": "src/assets/cans/images/2.webp"
+    },
+    {
+      "id": 3,
+      "value": 1,
+      "type": "can",
+      "image": "src/assets/cans/images/3.webp"
+    },
+    {
+      "id": 4,
+      "value": 1,
+      "type": "can",
+      "image": "src/assets/cans/images/4.png"
+    }
+  ]
+}
