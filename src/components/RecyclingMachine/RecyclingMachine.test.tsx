@@ -90,7 +90,7 @@ describe("RecyclingMachine", () => {
     clickItems("can", 10);
 
     expect(screen.queryByTestId("error-message")).toHaveTextContent(
-      "Use the phone to call for help"
+      "Machine reached capacity, use the phone to call for help"
     );
   });
   it("should not be possible to click and recycle cans/bottles when error message is displayed", () => {
@@ -126,7 +126,7 @@ describe("RecyclingMachine", () => {
     await waitFor(
       () =>
         expect(screen.queryByTestId("error-message")).not.toBeInTheDocument(),
-      { timeout: 5000 }
+      { timeout: 4500 }
     );
   });
 });

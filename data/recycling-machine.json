@@ -2,5 +2,5 @@
   "image": "src/assets/recycling-machine/images/1.jpeg",
   "active": false,
   "limit-value": 10,
-  "error-message": "Machine capacity reached, call personal for help"
+  "error-message": "Machine reached capacity, use the phone to call for help"
 }

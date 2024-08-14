@@ -11,6 +11,7 @@ describe("Screen", () => {
         countedCans={0}
         countedBottles={0}
         value={0}
+        errorMessage="test"
       />
     );
     expect(getByTestId("screen")).toHaveTextContent("Press screen to start");
@@ -25,6 +26,7 @@ describe("Screen", () => {
         countedCans={0}
         countedBottles={0}
         value={0}
+        errorMessage="test"
       />
     );
     fireEvent.click(getByTestId("screen"));
@@ -39,6 +41,7 @@ describe("Screen", () => {
         countedCans={2}
         countedBottles={3}
         value={5}
+        errorMessage="test"
       />
     );
     expect(getByTestId("counted-cans")).toHaveTextContent("2");
@@ -46,20 +49,18 @@ describe("Screen", () => {
     expect(getByTestId("value")).toHaveTextContent("5");
   });
   it("should display a call for help message when the machine is full", () => {
-    const { getByTestId } = render(
+    render(
       <Screen
-        isActive={true}
+        isActive={null}
         activate={() => {}}
         countedCans={10}
         countedBottles={0}
         value={10}
+        errorMessage="Machine reached capacity, use the phone to call for help"
       />
     );
-    expect(getByTestId("counted-cans")).toHaveTextContent("10");
-    expect(getByTestId("counted-bottles")).toHaveTextContent("0");
-    expect(getByTestId("value")).toHaveTextContent("10");
 
-    expect(screen.getByTestId("screen")).toHaveTextContent(
+    expect(screen.getByTestId("error-message")).toHaveTextContent(
       "Machine reached capacity, use the phone to call for help"
     );
   });
