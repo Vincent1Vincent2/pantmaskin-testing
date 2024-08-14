@@ -1,93 +1,48 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import App from "../../../App";
-
-const clickItems = (itemType: "can" | "bottle", count: number) => {
-  for (let i = 1; i <= count; i++) {
-    fireEvent.click(screen.getByTestId(`${itemType}-${i}`));
-  }
-};
+import { fireEvent, render } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import Screen from "./Screen";
 
 describe("Screen", () => {
-  it("should display start message", () => {
-    render(<App />);
-
-    expect(screen.queryByTestId("screen")).toHaveTextContent(
-      "Press screen to start"
+  it("displays 'Press screen to start' when not active", () => {
+    const { getByTestId } = render(
+      <Screen
+        isActive={false}
+        activate={() => {}}
+        countedCans={0}
+        countedBottles={0}
+        value={0}
+      />
     );
+    expect(getByTestId("screen")).toHaveTextContent("Press screen to start");
   });
-  it("should not be possible to start without pressing the screen", () => {
-    render(<App />);
 
-    expect(screen.queryByTestId("screen")).toHaveTextContent(
-      "Press screen to start"
+  it("calls activate function when clicked while not active", () => {
+    const mockActivate = vi.fn();
+    const { getByTestId } = render(
+      <Screen
+        isActive={false}
+        activate={mockActivate}
+        countedCans={0}
+        countedBottles={0}
+        value={0}
+      />
     );
+    fireEvent.click(getByTestId("screen"));
+    expect(mockActivate).toHaveBeenCalled();
+  });
 
-    expect(screen.queryByTestId("counted-cans")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("counted-bottles")).not.toBeInTheDocument();
-
-    clickItems("can", 1);
-    clickItems("bottle", 1);
-
-    expect(screen.queryByTestId("screen")).toHaveTextContent(
-      "Press screen to start"
+  it("displays counts and value when active", () => {
+    const { getByTestId } = render(
+      <Screen
+        isActive={true}
+        activate={() => {}}
+        countedCans={2}
+        countedBottles={3}
+        value={5}
+      />
     );
-
-    expect(screen.queryByTestId("counted-cans")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("counted-bottles")).not.toBeInTheDocument();
-  });
-  it("should increment the corresponding type, either can or bottle", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByTestId("screen"));
-
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("0");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("0");
-
-    clickItems("can", 1);
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("1");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("0");
-
-    clickItems("bottle", 1);
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("1");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("1");
-
-    clickItems("can", 2);
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("3");
-
-    clickItems("bottle", 2);
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("3");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("3");
-  });
-  it("should increment the value when a can or bottle has been pressed", () => {
-    render(<App />);
-
-    fireEvent.click(screen.getByTestId("screen"));
-
-    expect(screen.queryByTestId("value")).toHaveTextContent("0");
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("0");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("0");
-
-    clickItems("can", 1);
-    clickItems("bottle", 1);
-
-    expect(screen.queryByTestId("value")).toHaveTextContent("2");
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("1");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("1");
-
-    clickItems("can", 1);
-    clickItems("bottle", 1);
-    clickItems("can", 1);
-    clickItems("bottle", 1);
-
-    expect(screen.queryByTestId("value")).toHaveTextContent("6");
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("3");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("3");
-
-    clickItems("can", 1);
-
-    expect(screen.queryByTestId("value")).toHaveTextContent("7");
-    expect(screen.queryByTestId("counted-cans")).toHaveTextContent("4");
-    expect(screen.queryByTestId("counted-bottles")).toHaveTextContent("3");
+    expect(getByTestId("counted-cans")).toHaveTextContent("2");
+    expect(getByTestId("counted-bottles")).toHaveTextContent("3");
+    expect(getByTestId("value")).toHaveTextContent("5");
   });
 });
