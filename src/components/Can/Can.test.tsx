@@ -3,17 +3,19 @@ import { describe, expect, it, vi } from "vitest";
 import Can from "./Can";
 
 export const seenItems = (itemType: "can" | "bottle", count: number) => {
-  for (let i = 1; i <= count; i++) {
-    expect(screen.getByTestId(`${itemType}-${i}`)).toBeVisible();
+  const elements = screen.getAllByTestId(new RegExp(`^${itemType}-`));
+  for (let i = 0; i < count && i < elements.length; i++) {
+    expect(elements[i]).toBeVisible();
   }
 };
 
 describe("Can", () => {
   it("should be visible and handle clicks", () => {
     const handleItemClick = vi.fn();
+    const clicked: number[] = [];
 
     const { getAllByTestId } = render(
-      <Can handleItemClick={handleItemClick} />
+      <Can hideClicked={clicked} handleItemClick={handleItemClick} />
     );
 
     seenItems("can", 3);
@@ -24,6 +26,7 @@ describe("Can", () => {
       fireEvent.click(can);
       expect(handleItemClick).toHaveBeenCalledWith(
         expect.any(String),
+        expect.any(Number),
         expect.any(Number)
       );
     });

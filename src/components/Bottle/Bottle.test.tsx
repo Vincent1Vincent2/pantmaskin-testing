@@ -6,9 +6,10 @@ import Bottle from "./Bottle";
 describe("Bottle", () => {
   it("should be visible and handle clicks", () => {
     const handleItemClick = vi.fn();
+    const clicked: number[] = [];
 
     const { getAllByTestId } = render(
-      <Bottle handleItemClick={handleItemClick} />
+      <Bottle hideClicked={clicked} handleItemClick={handleItemClick} />
     );
 
     seenItems("bottle", 3);
@@ -19,6 +20,7 @@ describe("Bottle", () => {
       fireEvent.click(bottle);
       expect(handleItemClick).toHaveBeenCalledWith(
         expect.any(String),
+        expect.any(Number),
         expect.any(Number)
       );
     });
