@@ -1,5 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { seenItems } from "../Can/Can.test";
 import RecyclingMachine from "./RecyclingMachine";
 
 const clickItems = (itemType: "can" | "bottle", count: number) => {
@@ -80,5 +81,52 @@ describe("RecyclingMachine", () => {
     expect(screen.queryByTestId("value")).toHaveTextContent("6");
     clickItems("can", 1);
     expect(screen.queryByTestId("value")).toHaveTextContent("7");
+  });
+  it("should display error message when limit of machine is reached ", () => {
+    render(<RecyclingMachine />);
+    fireEvent.click(screen.getByTestId("screen"));
+
+    expect(screen.queryByTestId("value")).toHaveTextContent("0");
+    clickItems("can", 10);
+
+    expect(screen.queryByTestId("error-message")).toHaveTextContent(
+      "Use the phone to call for help"
+    );
+  });
+  it("should not be possible to click and recycle cans/bottles when error message is displayed", () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    expect(screen.queryByTestId("value")).toHaveTextContent("0");
+    clickItems("can", 10);
+
+    expect(screen.queryByTestId("error-message")).toHaveTextContent(
+      "Machine reached capacity, use the phone to call for help"
+    );
+
+    clickItems("bottle", 3);
+
+    seenItems("bottle", 3);
+  });
+  it("should be possible to call for help when error message is displayed", async () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    expect(screen.queryByTestId("value")).toHaveTextContent("0");
+    clickItems("can", 10);
+
+    expect(screen.queryByTestId("error-message")).toHaveTextContent(
+      "Machine reached capacity, use the phone to call for help"
+    );
+
+    fireEvent.click(screen.getByTestId("phone"));
+
+    await waitFor(
+      () =>
+        expect(screen.queryByTestId("error-message")).not.toBeInTheDocument(),
+      { timeout: 5000 }
+    );
   });
 });

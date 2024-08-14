@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import Screen from "./Screen";
 
@@ -44,5 +44,23 @@ describe("Screen", () => {
     expect(getByTestId("counted-cans")).toHaveTextContent("2");
     expect(getByTestId("counted-bottles")).toHaveTextContent("3");
     expect(getByTestId("value")).toHaveTextContent("5");
+  });
+  it("should display a call for help message when the machine is full", () => {
+    const { getByTestId } = render(
+      <Screen
+        isActive={true}
+        activate={() => {}}
+        countedCans={10}
+        countedBottles={0}
+        value={10}
+      />
+    );
+    expect(getByTestId("counted-cans")).toHaveTextContent("10");
+    expect(getByTestId("counted-bottles")).toHaveTextContent("0");
+    expect(getByTestId("value")).toHaveTextContent("10");
+
+    expect(screen.getByTestId("screen")).toHaveTextContent(
+      "Machine reached capacity, use the phone to call for help"
+    );
   });
 });
