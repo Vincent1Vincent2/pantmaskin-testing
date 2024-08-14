@@ -9,6 +9,7 @@ function Bottle(props: Props) {
     <div>
       {bottleData.bottles.map((bottle) => (
         <img
+          key={`bottle-${bottle.id}`}
           data-testid={`bottle-${bottle.id}`}
           onClick={() => props.handleItemClick(bottle.type, bottle.value)}
           src={bottle.image}

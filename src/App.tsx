@@ -3,7 +3,7 @@ import RecyclingMachine from "./components/RecyclingMachine/RecyclingMachine";
 function App() {
   return (
     <>
-      <h1>TESTING TESTING!</h1>
+      <h1>RECYCLING RECYCLING!</h1>
       <RecyclingMachine />
     </>
   );

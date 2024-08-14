@@ -9,6 +9,7 @@ function Can(props: Props) {
     <div>
       {canData.cans.map((can) => (
         <img
+          key={`can-${can.id}`}
           data-testid={`can-${can.id}`}
           onClick={() => props.handleItemClick(can.type, can.value)}
           src={can.image}
