@@ -6,6 +6,7 @@ interface Props {
   countedCans: number;
   countedBottles: number;
   value: number;
+  errorMessage: string;
 }
 
 function Screen(props: Props) {
@@ -26,11 +27,19 @@ function Screen(props: Props) {
         </div>
       </div>
     );
-  } else {
+  } else if (props.isActive === false) {
     return (
       <div className="frame">
         <div className="screen" data-testid="screen" onClick={props.activate}>
           Press screen to start
+        </div>
+      </div>
+    );
+  } else if (props.isActive === null) {
+    return (
+      <div className="frame">
+        <div className="screen error" data-testid="screen">
+          <p data-testid="error-message"> {props.errorMessage} </p>
         </div>
       </div>
     );

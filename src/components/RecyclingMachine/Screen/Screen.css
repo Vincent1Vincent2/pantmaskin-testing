@@ -22,3 +22,7 @@ p {
   margin: 0;
   display: inline;
 }
+
+.error {
+  font-size: smaller;
+}
