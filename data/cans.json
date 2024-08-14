@@ -1,25 +1,25 @@
 {
   "cans": [
     {
-      "id": 1,
+      "id": 80,
       "value": 1,
       "type": "can",
       "image": "src/assets/cans/images/1.webp"
     },
     {
-      "id": 2,
+      "id": 81,
       "value": 1,
       "type": "can",
       "image": "src/assets/cans/images/2.webp"
     },
     {
-      "id": 3,
+      "id": 82,
       "value": 1,
       "type": "can",
       "image": "src/assets/cans/images/3.webp"
     },
     {
-      "id": 4,
+      "id": 83,
       "value": 1,
       "type": "can",
       "image": "src/assets/cans/images/4.png"
