@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { render } from "@testing-library/react";
+import { describe, it } from "vitest";
 import App from "../../App";
+import { seenItems } from "../Can/Can.test";
 
 describe("Bottle", () => {
   it("should be visible", () => {
     render(<App />);
 
-    expect(screen.getAllByTestId("bottle")).toBeVisible();
+    seenItems("bottle", 3);
   });
 });

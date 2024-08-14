@@ -6,6 +6,6 @@ describe("Recycling Machine", () => {
   it("should be visible", () => {
     render(<App />);
 
-    expect(screen.getAllByTestId("recycling-machine")).toBeVisible();
+    expect(screen.queryByTestId("recycling-machine")).toBeVisible();
   });
 });
