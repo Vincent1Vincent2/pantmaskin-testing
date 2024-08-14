@@ -1,3 +1,5 @@
+import "./Screen.css";
+
 interface Props {
   isActive: boolean | null;
   activate: () => void;
@@ -9,16 +11,27 @@ interface Props {
 function Screen(props: Props) {
   if (props.isActive === true) {
     return (
-      <div data-testid="screen">
-        <p data-testid="counted-cans">{props.countedCans}</p>
-        <p data-testid="counted-bottles">{props.countedBottles}</p>
-        <p data-testid="value">{props.value}</p>
+      <div className="frame">
+        <div className="screen" data-testid="screen">
+          <span>
+            Cans: <p data-testid="counted-cans">{props.countedCans}</p>{" "}
+          </span>
+          <span>
+            {" "}
+            Bottles: <p data-testid="counted-bottles">{props.countedBottles}</p>
+          </span>
+          <span>
+            Money: <p data-testid="value">{props.value}</p>
+          </span>
+        </div>
       </div>
     );
   } else {
     return (
-      <div data-testid="screen" onClick={props.activate}>
-        Press screen to start
+      <div className="frame">
+        <div className="screen" data-testid="screen" onClick={props.activate}>
+          Press screen to start
+        </div>
       </div>
     );
   }
