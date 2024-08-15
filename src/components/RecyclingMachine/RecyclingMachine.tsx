@@ -20,6 +20,7 @@ function RecyclingMachine() {
 
   const phoneCall = () => {
     if (timesFixed < 1) {
+      playPhoneSound();
       setTimeout(() => {
         setIsActive(false);
         setTimesFixed((prevTimesFixed) => prevTimesFixed + 1);
@@ -27,8 +28,29 @@ function RecyclingMachine() {
     }
   };
 
+  const playPhoneSound = () => {
+    const audio = new Audio("/src/assets/phone/sounds/1.mp3");
+
+    audio.play();
+  };
+
+  const playCrushingSound = () => {
+    const sounds = [
+      "src/assets/recycling-machine/sounds/crushing/1.mp3",
+      "src/assets/recycling-machine/sounds/crushing/2.mp3",
+      "src/assets/recycling-machine/sounds/crushing/3.mp3",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * sounds.length);
+    const selectedSound = sounds[randomIndex];
+
+    const audio = new Audio(selectedSound);
+    audio.play();
+  };
+
   const handleItemClick = (type: string, value: number, id: number) => {
     if (isActive === true) {
+      playCrushingSound();
       if (type === "can") {
         setCans((prevCans) => prevCans + 1);
         setClicked((prevClickedCans) => [...prevClickedCans, id]);
