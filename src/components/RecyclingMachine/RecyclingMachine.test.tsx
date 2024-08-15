@@ -129,4 +129,48 @@ describe("RecyclingMachine", () => {
       { timeout: 4500 }
     );
   });
+  it("should not reset the machine after calling for help more than once", async () => {
+    render(<RecyclingMachine />);
+
+    // Activate the machine
+    fireEvent.click(screen.getByTestId("screen"));
+
+    // Fill the machine to capacity
+    clickItems("can", 10);
+
+    const errorMessage = await screen.findByTestId("error-message");
+    expect(errorMessage).toHaveTextContent(
+      "Machine reached capacity, use the phone to call for help"
+    );
+
+    // Call for help the first time
+    fireEvent.click(screen.getByTestId("phone"));
+
+    // Wait for the machine to reset
+    await waitFor(
+      () =>
+        expect(screen.queryByTestId("error-message")).not.toBeInTheDocument(),
+      { timeout: 4500 }
+    );
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    // Try to fill the machine again (this should not cause an error now)
+    clickItems("bottle", 2);
+
+    // Verify that no error message is displayed
+    expect(screen.queryByTestId("error-message")).not.toBeInTheDocument();
+
+    // Try to call for help again (this should do nothing)
+    fireEvent.click(screen.getByTestId("phone"));
+
+    // Verify that the machine is still active and no error is displayed
+    expect(screen.queryByTestId("error-message")).not.toBeInTheDocument();
+    expect(screen.getByTestId("counted-cans")).toHaveTextContent("10");
+    expect(screen.getByTestId("counted-bottles")).toHaveTextContent("2");
+
+    // Verify that we can still add items
+    clickItems("bottle", 1);
+    expect(screen.getByTestId("counted-bottles")).toHaveTextContent("3");
+  });
 });

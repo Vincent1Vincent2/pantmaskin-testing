@@ -8,7 +8,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["src/test-setup.ts"],
     coverage: {
-      provider: "istanbul",
+      provider: "v8",
       exclude: [...coverageConfigDefaults.exclude, "src/main.tsx"],
     },
   },

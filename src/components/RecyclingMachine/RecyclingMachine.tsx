@@ -38,7 +38,7 @@ function RecyclingMachine() {
         setClicked((prevClickedBottles) => [...prevClickedBottles, id]);
       }
       setValue((prevValue) => prevValue + value);
-      if (clicked.length >= 8 && timesFixed < 1) {
+      if (clicked.length >= 9 && timesFixed < 1) {
         setIsActive(null);
       }
     }
