@@ -1,3 +1,4 @@
+import "./Phone.css";
 interface Props {
   isActive: boolean | null;
   onClick: () => void;
@@ -8,6 +9,7 @@ function Phone(props: Props) {
 
   return (
     <img
+      className="phone"
       data-testid="phone"
       src="src/assets/phone/images/1.png"
       alt="phone"
