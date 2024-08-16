@@ -28,15 +28,11 @@ function RecyclingMachine() {
     setShowReceipt(false);
   };
 
-  const closeReceipt = () => {
-    setShowReceipt(false);
-  };
-
   const phoneCall = () => {
     if (isActive === null && timesFixed < 1) {
       playPhoneSound();
       setTimeout(() => {
-        setIsActive(false);
+        setIsActive(true);
         setTimesFixed((prevTimesFixed) => prevTimesFixed + 1);
       }, 4000);
     }
@@ -93,6 +89,10 @@ function RecyclingMachine() {
       setShowReceipt(true);
       setIsActive(false);
     }
+  };
+
+  const closeReceipt = () => {
+    setShowReceipt(false);
   };
 
   return (

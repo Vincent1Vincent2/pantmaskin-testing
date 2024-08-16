@@ -8,19 +8,7 @@ describe("Phone", () => {
   it("should render", () => {
     const phoneCall = vi.fn();
 
-    render(
-      <>
-        <Screen
-          isActive={true}
-          activate={() => {}}
-          countedCans={10}
-          countedBottles={0}
-          value={10}
-          errorMessage="Machine reached capacity, use the phone to call for help"
-        />
-        <Phone timesFixed={0} isActive={true} onClick={phoneCall} />
-      </>
-    );
+    render(<Phone timesFixed={0} isActive={true} onClick={phoneCall} />);
 
     expect(screen.getByTestId("phone")).toBeVisible();
   });
@@ -29,7 +17,6 @@ describe("Phone", () => {
 
     render(
       <>
-        {" "}
         <Screen
           isActive={null}
           activate={() => {}}
@@ -37,7 +24,7 @@ describe("Phone", () => {
           countedBottles={0}
           value={10}
           errorMessage="Machine reached capacity, use the phone to call for help"
-        />{" "}
+        />
         <Phone timesFixed={0} isActive={null} onClick={phoneCall} />
       </>
     );
