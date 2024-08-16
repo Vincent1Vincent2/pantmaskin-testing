@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import Screen from "./Screen";
 
 describe("Screen", () => {
-  it("displays 'Press screen to start' when not active", () => {
+  it("should display 'Press screen to start' when not active", () => {
     const { getByTestId } = render(
       <Screen
         isActive={false}
@@ -17,7 +17,7 @@ describe("Screen", () => {
     expect(getByTestId("screen")).toHaveTextContent("Press screen to start");
   });
 
-  it("calls activate function when clicked while not active", () => {
+  it("should call activate function when clicked while not active", () => {
     const mockActivate = vi.fn();
     const { getByTestId } = render(
       <Screen
@@ -33,7 +33,7 @@ describe("Screen", () => {
     expect(mockActivate).toHaveBeenCalled();
   });
 
-  it("displays counts and value when active", () => {
+  it("should display counted cans/bottles and value when active", () => {
     const { getByTestId } = render(
       <Screen
         isActive={true}

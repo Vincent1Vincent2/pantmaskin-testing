@@ -129,7 +129,7 @@ describe("RecyclingMachine", () => {
       { timeout: 4500 }
     );
   });
-  it("should not reset the machine after calling for help more than once", async () => {
+  it("should not display an error on the machine after calling for help once", async () => {
     render(<RecyclingMachine />);
 
     fireEvent.click(screen.getByTestId("screen"));
@@ -271,6 +271,48 @@ describe("RecyclingMachine", () => {
 
     fireEvent.click(screen.getByTestId("print-receipt"));
 
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+  });
+  it("should be possible to print a receipt, call for help and then print a receipt", async () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 0);
+    clickItems("bottle", 1);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.queryByTestId("receipt")).toBeInTheDocument();
+    expect(screen.queryByTestId("close-receipt"));
+
+    fireEvent.click(screen.getByTestId("close-receipt"));
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 10);
+
+    expect(screen.getByTestId("error-message")).toHaveTextContent(
+      "Machine reached capacity, use the phone to call for help"
+    );
+
+    fireEvent.click(screen.getByTestId("phone"));
+
+    await waitFor(
+      () =>
+        expect(screen.queryByTestId("error-message")).not.toBeInTheDocument(),
+      { timeout: 4500 }
+    );
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.queryByTestId("receipt")).toBeInTheDocument();
+    expect(screen.queryByTestId("close-receipt"));
+
+    fireEvent.click(screen.getByTestId("close-receipt"));
     expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
   });
 });
