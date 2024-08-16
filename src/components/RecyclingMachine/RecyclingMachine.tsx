@@ -3,8 +3,15 @@ import machine from "../../../data/recycling-machine.json";
 import Bottle from "../Bottle/Bottle";
 import Can from "../Can/Can";
 import Phone from "../Phone/Phone";
+import Receipt from "../Receipt/Receipt";
 import "./RecyclingMachine.css";
 import Screen from "./Screen/Screen";
+
+interface newReceipt {
+  cans: number;
+  bottles: number;
+  value: number;
+}
 
 function RecyclingMachine() {
   const [isActive, setIsActive] = useState<boolean | null>(false);
@@ -13,25 +20,35 @@ function RecyclingMachine() {
   const [value, setValue] = useState<number>(0);
   const [clicked, setClicked] = useState<number[]>([]);
   const [timesFixed, setTimesFixed] = useState<number>(0);
+  const [showReceipt, setShowReceipt] = useState<boolean>(false);
+  const [newReceipt, setNewReceipt] = useState<newReceipt | null>(null);
 
   const handleActivation = () => {
     setIsActive(true);
+    setShowReceipt(false);
+  };
+
+  const closeReceipt = () => {
+    setShowReceipt(false);
   };
 
   const phoneCall = () => {
-    if (timesFixed < 1) {
+    if (isActive === null && timesFixed < 1) {
       playPhoneSound();
       setTimeout(() => {
         setIsActive(false);
         setTimesFixed((prevTimesFixed) => prevTimesFixed + 1);
       }, 4000);
     }
+    return;
   };
 
   const playPhoneSound = () => {
-    const audio = new Audio("/src/assets/phone/sounds/1.mp3");
+    if (isActive === null && timesFixed < 1) {
+      const audio = new Audio("/src/assets/phone/sounds/1.mp3");
 
-    audio.play();
+      audio.play();
+    }
   };
 
   const playCrushingSound = () => {
@@ -66,9 +83,22 @@ function RecyclingMachine() {
     }
   };
 
+  const printReceipt = () => {
+    if (cans >= 1 || bottles >= 1) {
+      setNewReceipt({ cans, bottles, value });
+
+      setCans(0);
+      setBottles(0);
+      setValue(0);
+      setShowReceipt(true);
+      setIsActive(false);
+    }
+  };
+
   return (
-    <div>
+    <div className="main-container">
       <img
+        className="recycling-machine"
         data-testid="recycling-machine"
         src={machine.image}
         alt="Recycling Machine"
@@ -81,9 +111,22 @@ function RecyclingMachine() {
         value={value}
         errorMessage={machine["error-message"]}
       />
-      <Phone isActive={isActive} onClick={phoneCall} />
+      <Phone timesFixed={timesFixed} isActive={isActive} onClick={phoneCall} />
       <Can hideClicked={clicked} handleItemClick={handleItemClick} />
       <Bottle hideClicked={clicked} handleItemClick={handleItemClick} />
+      <div
+        className="button"
+        data-testid="print-receipt"
+        onClick={printReceipt}
+      ></div>
+      {showReceipt && newReceipt && (
+        <Receipt
+          cans={newReceipt.cans}
+          bottles={newReceipt.bottles}
+          value={newReceipt.value}
+          closeReceipt={closeReceipt}
+        />
+      )}
     </div>
   );
 }
