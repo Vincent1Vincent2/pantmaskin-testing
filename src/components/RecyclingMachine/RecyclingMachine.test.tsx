@@ -256,4 +256,21 @@ describe("RecyclingMachine", () => {
     expect(screen.getByTestId("bottles-amount")).toHaveTextContent("1");
     expect(screen.getByTestId("value-amount")).toHaveTextContent("1");
   });
+  it("should not be possible to print a receipt without starting or starting but with no cans/bottles", () => {
+    render(<RecyclingMachine />);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+  });
 });
