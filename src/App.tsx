@@ -1,10 +1,16 @@
+import "./App.css";
 import RecyclingMachine from "./components/RecyclingMachine/RecyclingMachine";
 
 function App() {
   return (
     <>
-      <h1>RECYCLING RECYCLING!</h1>
-      <RecyclingMachine />
+      <main className="main">
+        <h1 className="heading">RECYCLING RECYCLING!</h1>
+        <RecyclingMachine />
+      </main>
+      <div className="onlyDesktop">
+        <h2>THIS IS A DESKTOP APPLICATION AND DOESN'T WORK ON MOBILE</h2>
+      </div>
     </>
   );
 }

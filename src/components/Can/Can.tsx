@@ -10,9 +10,10 @@ function Can(props: Props) {
   return (
     <div>
       {canData.cans.map(
-        (can) =>
+        (can, index) =>
           !props.hideClicked.includes(can.id) && (
             <img
+              style={{ transform: `translate(${30 * index}px, -110%)` }}
               className="can"
               key={`can-${can.id}`}
               data-testid={`can-${can.id}`}
