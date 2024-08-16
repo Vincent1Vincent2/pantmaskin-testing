@@ -6,34 +6,26 @@
 
 ## Table of Contents
 
-- [Project Structure](#project-structure)
 - [Installation](#installation)
   - [Configuration](#configuration)
 - [Running Tests](#running-tests)
-- [Tests](#tests)
-  - [Unit Tests](#unit-tests)
-    - [App.tsx](#app)
-    - [Can + Bottle.tsx](#can-bottle)
-    - [Phone.tsx](#phone)
-    - [Receipt.tsx](#receipt)
-    - [Screen.tsx](#screen)
-    - [Recycling Machine.tsx](#recycling-machine)
-  - [Integration Tests](#integration-tests)
+- [Unit Tests](#unit-tests)
+  - [App.tsx](#app)
+  - [Can.tsx](#can)
+  - [Bottle.tsx](#bottle)
+  - [Phone.tsx](#phone)
+  - [Receipt.tsx](#receipt)
+  - [Screen.tsx](#screen)
+  - [RecyclingMachine.tsx](#recycling-machine)
+- [Integration Tests](#integration-tests)
 
-## Project Structure
+  - [RecyclingMachine.tsx + Screen.tsx](#rec-scr)
 
-```
-/project-root
-  ├── /data                  # Data
-  ├── /src                   # Source code
-  │   ├── /assets            # Images and sounds
-  │   ├── /components        # Components with tests
-  ├── .gitignore             # Git ignore file
-  ├── README.md              # This file
-  ├── package.json           # Project metadata and dependencies
-  ├── tsconfig.json          # TypeScript configuration (if applicable)
-  └── vitest.config.ts       # Vitest configuration file
-```
+  - [RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx](#rec-scr-cb)
+
+  - [RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx](#rec-scr-cb-p)
+  - [RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Receipt.tsx](#rec-scr-cb-r)
+  - [RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx + Receipt.tsx](#rec-scr-cb-p-r)
 
 ### Installation
 
@@ -69,86 +61,104 @@ npx vitest --coverage
 
 ## Unit Tests
 
-### App<a id='app'></a>
+### App.tsx<a id='app'></a>
 
-#### - **Should render the heading and RecyclingMachine**
-
----
-
-### Can + Bottle<a id='can-bottle'></a>
-
-#### - **Should be visible and handle clicks**
+- **Should render the heading and RecyclingMachine**
 
 ---
 
-### Phone<a id='phone'></a>
+### Can.tsx <a id='can'></a>
 
-#### - **Should render**
-
-#### - **Should be possible to call for help if machine is not working**
+- **Should be visible and handle clicks**
 
 ---
 
-### Receipt<a id='receipt'></a>
+### Bottle.tsx <a id='bottle'></a>
 
-#### - **Should render with correct values**
-
-#### - **Should call closeReceipt function**
+- **Should be visible and handle clicks**
 
 ---
 
-### Screen<a id='screen'></a>
+### Phone.tsx<a id='phone'></a>
 
-#### - **Should display 'Press screen to start' when not active**
+- **Should render**
 
-#### - **Should call activate function when clicked while not active**
+- **Should be possible to call for help if machine is not working**
 
-#### - **Should display counted cans/bottles and value when active**
+---
 
-### Recycling Machine<a id='recycling-machine'></a>
+### Receipt.tsx<a id='receipt'></a>
 
-#### - **should be visible**
+- **Should render with correct values**
+
+- **Should call closeReceipt function**
+
+---
+
+### Screen.tsx<a id='screen'></a>
+
+- **Should display 'Press screen to start' when not active**
+
+- **Should call activate function when clicked while not active**
+
+- **Should display counted cans/bottles and value when active**
+
+---
+
+### RecyclingMachine.tsx<a id='recycling-machine'></a>
+
+- **Should be visible**
+
+---
 
 ## Integration Tests
 
-### RecyclingMachine + Screen
+### RecyclingMachine.tsx + Screen.tsx<a id='rec-scr'></a>
 
-#### - **should activate the machine when handleActivation is called**
+- **Should activate the machine when handleActivation is called**
 
-### RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx
+---
 
-#### - **should not be possible to start without pressing the screen**
+### RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx<a id='rec-scr-cb'></a>
 
-#### - **should increment the corresponding type, either can or bottle**
+- **Should not be possible to start without pressing the screen**
 
-#### - **should increment the value when a can or bottle has been pressed**
+- **Should increment the corresponding type, either can or bottle**
 
-#### - **should display error message when limit of machine is reached**
+- **Should increment the value when a can or bottle has been pressed**
 
-#### - **should not be possible to click and recycle cans/bottles when error message is displayed**
+- **Should display error message when limit of machine is reached**
 
-RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx
+- **Should not be possible to click and recycle cans/bottles when error message is displayed**
 
-- **should be possible to call for help when error message is displayed**
+---
 
-- **should not reset the machine after calling for help more than once**
+### RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx<a id='rec-scr-cb-p'></a>
 
-- **should not display an error on the machine after calling for help once**
+- **Should be possible to call for help when error message is displayed**
 
-- **should not be possible to call if machine is working**
+- **Should not reset the machine after calling for help more than once**
 
-RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Receipt.tsx
+- **Should not display an error on the machine after calling for help once**
 
-- **should be possible to print a receipt and display correct values**
+- **Should not be possible to call if machine is working**
 
-- **should be possible to print a receipt and close it**
+---
 
-- **should be possible to print a receipt with either one can or bottle**
+### RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Can/Bottle.tsx + Receipt.tsx<a id='rec-scr-cb-r'></a>
 
-- **should not be possible to print a receipt without starting or starting but with no cans/bottles**
+- **Should be possible to print a receipt and display correct values**
 
-RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx + Receipt.tsx
+- **Should be possible to print a receipt and close it**
 
-- **should be possible to print a receipt and call for help then print a receipt**
+- **Should be possible to print a receipt with either one can or bottle**
+
+- **Should not be possible to print a receipt without starting or starting but with no cans/bottles**
+
+---
+
+### RecyclingMachine.tsx + Screen.tsx + Can/Bottle.tsx + Phone.tsx + Receipt.tsx<a id='rec-scr-cb-p-r'></a>
+
+- **Should be possible to print a receipt and call for help then print a receipt**
 
 ---
