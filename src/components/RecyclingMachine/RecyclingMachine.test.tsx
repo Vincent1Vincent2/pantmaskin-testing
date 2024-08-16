@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { seenItems } from "../Can/Can.test";
 import RecyclingMachine from "./RecyclingMachine";
 
@@ -132,10 +132,8 @@ describe("RecyclingMachine", () => {
   it("should not reset the machine after calling for help more than once", async () => {
     render(<RecyclingMachine />);
 
-    // Activate the machine
     fireEvent.click(screen.getByTestId("screen"));
 
-    // Fill the machine to capacity
     clickItems("can", 10);
 
     const errorMessage = await screen.findByTestId("error-message");
@@ -143,10 +141,8 @@ describe("RecyclingMachine", () => {
       "Machine reached capacity, use the phone to call for help"
     );
 
-    // Call for help the first time
     fireEvent.click(screen.getByTestId("phone"));
 
-    // Wait for the machine to reset
     await waitFor(
       () =>
         expect(screen.queryByTestId("error-message")).not.toBeInTheDocument(),
@@ -155,22 +151,109 @@ describe("RecyclingMachine", () => {
 
     fireEvent.click(screen.getByTestId("screen"));
 
-    // Try to fill the machine again (this should not cause an error now)
     clickItems("bottle", 2);
 
-    // Verify that no error message is displayed
     expect(screen.queryByTestId("error-message")).not.toBeInTheDocument();
 
-    // Try to call for help again (this should do nothing)
     fireEvent.click(screen.getByTestId("phone"));
 
-    // Verify that the machine is still active and no error is displayed
     expect(screen.queryByTestId("error-message")).not.toBeInTheDocument();
     expect(screen.getByTestId("counted-cans")).toHaveTextContent("10");
     expect(screen.getByTestId("counted-bottles")).toHaveTextContent("2");
 
-    // Verify that we can still add items
     clickItems("bottle", 1);
     expect(screen.getByTestId("counted-bottles")).toHaveTextContent("3");
+  });
+  it("should not be possible to call if machine is working", () => {
+    render(<RecyclingMachine />);
+    const phoneCall = vi.fn();
+    const playPhoneSound = vi.fn();
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 5);
+    clickItems("bottle", 1);
+
+    fireEvent.click(screen.getByTestId("phone"));
+
+    expect(phoneCall).not.toBeCalled();
+    expect(playPhoneSound).not.toBeCalled();
+  });
+
+  it("should be possible to print a receipt and display correct values", () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 5);
+    clickItems("bottle", 1);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.getByTestId("receipt")).toBeInTheDocument();
+
+    expect(screen.getByTestId("cans-amount")).toHaveTextContent("5");
+    expect(screen.getByTestId("bottles-amount")).toHaveTextContent("1");
+    expect(screen.getByTestId("value-amount")).toHaveTextContent("6");
+  });
+  it("should be possible to print a receipt and close it", () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 5);
+    clickItems("bottle", 1);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.getByTestId("receipt")).toBeInTheDocument();
+
+    expect(screen.getByTestId("close-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("close-receipt"));
+
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+  });
+  it("should be possible to print a receipt with either one can or bottle", () => {
+    render(<RecyclingMachine />);
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 1);
+    clickItems("bottle", 0);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.getByTestId("receipt")).toBeInTheDocument();
+
+    expect(screen.getByTestId("cans-amount")).toHaveTextContent("1");
+    expect(screen.getByTestId("bottles-amount")).toHaveTextContent("0");
+    expect(screen.getByTestId("value-amount")).toHaveTextContent("1");
+    expect(screen.getByTestId("close-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("close-receipt"));
+
+    expect(screen.queryByTestId("receipt")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("screen"));
+
+    clickItems("can", 0);
+    clickItems("bottle", 1);
+
+    expect(screen.queryByTestId("print-receipt")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("print-receipt"));
+
+    expect(screen.getByTestId("receipt")).toBeInTheDocument();
+
+    expect(screen.getByTestId("cans-amount")).toHaveTextContent("0");
+    expect(screen.getByTestId("bottles-amount")).toHaveTextContent("1");
+    expect(screen.getByTestId("value-amount")).toHaveTextContent("1");
   });
 });

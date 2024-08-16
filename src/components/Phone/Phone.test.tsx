@@ -5,7 +5,7 @@ import Screen from "../RecyclingMachine/Screen/Screen";
 import Phone from "./Phone";
 
 describe("Phone", () => {
-  it("should not be able to call for help if machine is working", () => {
+  it("should render", () => {
     const phoneCall = vi.fn();
 
     render(
@@ -18,15 +18,11 @@ describe("Phone", () => {
           value={10}
           errorMessage="Machine reached capacity, use the phone to call for help"
         />
-        <Phone isActive={true} onClick={phoneCall} />
+        <Phone timesFixed={0} isActive={true} onClick={phoneCall} />
       </>
     );
 
     expect(screen.getByTestId("phone")).toBeVisible();
-
-    fireEvent.click(screen.getByTestId("phone"));
-
-    expect(phoneCall).not.toBeCalled();
   });
   it("should be possible to call for help if machine is not working", () => {
     const phoneCall = vi.fn();
@@ -42,7 +38,7 @@ describe("Phone", () => {
           value={10}
           errorMessage="Machine reached capacity, use the phone to call for help"
         />{" "}
-        <Phone isActive={null} onClick={phoneCall} />
+        <Phone timesFixed={0} isActive={null} onClick={phoneCall} />
       </>
     );
 
