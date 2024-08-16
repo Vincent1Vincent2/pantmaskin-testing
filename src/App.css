@@ -1,0 +1,28 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.heading {
+  z-index: 1;
+  color: white;
+  position: absolute;
+  top: 5%;
+}
+
+.onlyDesktop {
+  display: none;
+}
+
+@media only screen and (max-width: 793px) {
+  .main {
+    display: none;
+  }
+  .onlyDesktop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90svh;
+  }
+}

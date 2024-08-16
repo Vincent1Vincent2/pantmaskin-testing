@@ -1,7 +1,7 @@
 .frame {
-  perspective: 2000px;
+  perspective: 2500px;
   transform-style: preserve-3d;
-  perspective-origin: 25% 50%;
+  perspective-origin: 15% 50%;
 }
 
 .screen {
@@ -12,9 +12,10 @@
   position: absolute;
   width: 105px;
   height: 80px;
+  border-radius: 5px;
   background-color: rgb(194, 223, 247);
-  transform: rotateX(11deg) rotateY(-20deg) translate(525%, -690%) skewY(14deg)
-    skewX(-5deg);
+  transform: rotateX(20deg) rotateY(-17deg) translate(490%, -610%) skewY(15deg)
+    skewX(-7deg);
 }
 
 p {

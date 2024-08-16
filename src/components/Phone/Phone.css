@@ -1,5 +1,21 @@
+@keyframes inFocus {
+  0% {
+    transform: translate(50%, -300%) scale(1) rotateZ(-1deg);
+  }
+  50% {
+    transform: translate(50%, -300%) scale(1.1) rotateZ(1deg);
+  }
+  100% {
+    transform: translate(50%, -300%) scale(1) rotateZ(-1deg);
+  }
+}
+
 .phone {
   position: absolute;
   transform: translate(50%, -300%);
-  width: 250px;
+  width: 200px;
+}
+
+.focusPhone {
+  animation: inFocus 0.5s infinite;
 }

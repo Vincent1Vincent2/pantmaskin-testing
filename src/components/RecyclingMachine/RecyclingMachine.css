@@ -1,0 +1,18 @@
+.main-container {
+  position: absolute;
+  top: 5%;
+}
+
+.recycling-machine {
+  min-width: 720px;
+  height: 850px;
+}
+
+.button {
+  position: absolute;
+  transform: translate(1845%, -1635%);
+  width: 25px;
+  height: 25px;
+  border-radius: 99999rem;
+  background-color: rgb(76, 176, 76);
+}

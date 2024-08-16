@@ -1,5 +1,5 @@
 .can {
+  position: absolute;
   height: 150px;
-  max-width: 180px;
-  transform: translate(50%, -200%);
+  max-width: 190px;
 }

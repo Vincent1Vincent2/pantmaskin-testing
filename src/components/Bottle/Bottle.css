@@ -1,5 +1,6 @@
 .bottle {
+  position: absolute;
   height: 190px;
-  max-width: 200px;
-  transform: translate(50%, -200%);
+  max-width: 150px;
+  transform: translate(400%, -100%);
 }
